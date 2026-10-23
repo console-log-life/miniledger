@@ -1,13 +1,16 @@
 {
-  "name": "backend",
+  "name": "miniledger-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "MiniLedger REST API (Express + TypeScript + PostgreSQL)",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch --env-file ../.env.local src/server.ts",
     "build": "tsc",
-    "start": "node --env-file=../.env.local dist/server.js"
+    "start": "node --env-file-if-exists=../.env.local dist/server.js",
+    "db:migrate": "tsx --env-file ../.env.local src/migrate.ts",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "test": "node --import tsx --test \"test/**/*.test.ts\"",
+    "db:migrate:prod": "node --env-file-if-exists=../.env.local dist/migrate.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +25,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
@@ -29,5 +33,8 @@
     "@types/pg": "^8.23.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=22.9"
   }
 }
